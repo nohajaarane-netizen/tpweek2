@@ -12,5 +12,10 @@ pipeline {
                 sh 'ls -la'
             }
         }
+        stage('Info') {
+            steps {
+                echo 'Cette etape vient de mon Jenkinsfile'
+            }
+        }
     }
 }
