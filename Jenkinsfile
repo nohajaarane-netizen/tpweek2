@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        APP_NAME = 'tpweek2'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -8,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Build de tpweek2'
+                echo "Build de ${env.APP_NAME}, numero ${env.BUILD_NUMBER}"
                 sh 'ls -la'
             }
         }
@@ -41,6 +44,12 @@ pipeline {
                 always {
                     junit 'reports/results.xml'
                 }
+            }
+        }
+        stage('Package') {
+            steps {
+                sh 'tar -czf $APP_NAME-$BUILD_NUMBER.tar.gz server.js package.json README.md'
+                archiveArtifacts artifacts: "${env.APP_NAME}-${env.BUILD_NUMBER}.tar.gz", fingerprint: true
             }
         }
     }
