@@ -48,9 +48,18 @@ pipeline {
         }
         stage('Package') {
             steps {
-                sh 'tar -czf $APP_NAME-$BUILD_NUMBER.tar.gz server.js package.json README.md'
-                archiveArtifacts artifacts: "${env.APP_NAME}-${env.BUILD_NUMBER}.tar.gz", fingerprint: true
+                sh 'tar -czf $APP_NAME-$BUILD_NUMBER.tar.gz server.js package.json README.md' // creer archive
+                archiveArtifacts artifacts: "${env.APP_NAME}-${env.BUILD_NUMBER}.tar.gz", fingerprint: true // Conserver l'archive dans Jenkins
             }
+                
+                
+        stage('Credentials') {
+            steps {
+                withCredentials([string(credentialsId: 'github-token', variable: 'GH_TOKEN')]) {
+                    sh 'curl -s -o /dev/null -w "GitHub API : %{http_code}\n" -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/user'
+                }
+            }
+        }    
         }
     }
 }
