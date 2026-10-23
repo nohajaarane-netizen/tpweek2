@@ -20,7 +20,7 @@ check() {
     fi
 }
 
-check "server.js existe" "test -f server.js"
+check "server.js existe" "test -f fichier-inexistant.js"
 check "le serveur ecoute sur 3000" "grep -q 'listen(3000' server.js"
 check "package.json contient express" "grep -q express package.json"
 
