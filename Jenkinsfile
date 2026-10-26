@@ -43,7 +43,7 @@ pipeline {
             post {
                 always {
                     // Publier le rapport JUnit,
-                    // même si les tests échouent nn
+                    // même si les tests échouent nn nnn
                     junit 'reports/results.xml'
                 }
             }
